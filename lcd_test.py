@@ -51,12 +51,9 @@ class LCDdisplay(object):
     # flags for function set
     LCD_8BITMODE            = 0x10
     LCD_4BITMODE            = 0x00
-    # LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
-    # LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
-    # LCD_LINE_3 = 0x94 # LCD RAM address for the 3rd line
-    # LCD_LINE_4 = 0xD4 # LCD RAM address for the 4th line 
+    LCD_4LINE               = 0xD4
     LCD_3LINE               = 0x94
-    LCD_2LINE               = 0x08
+    LCD_2LINE               = 0xC0
     LCD_1LINE               = 0x00
     LCD_5x10DOTS            = 0x04
     LCD_5x8DOTS             = 0x00
@@ -146,8 +143,12 @@ class LCDdisplay(object):
         to the next line of the LCD.
         """
         for char in text:
-            if char == '\n':
-                self.write4bits(0xC0) # next line
+            if char == '\2':
+                self.write4bits(0xC0) # 2nd line
+            elif char == '\3':
+                self.write4bits(0x94) # 3rd line
+            elif char == '\4':
+                self.write4bits(0xD4) # 4th line
             else:
                 self.write4bits(ord(char),True)
 
