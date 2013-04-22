@@ -99,6 +99,10 @@ class LCDdisplay(object):
         
         self.clear()
 
+    def clear(self):
+        self.write4bits(self.LCD_CLEARDISPLAY) # command to clear display
+        self.delayMicroseconds(3000)    # 3000 microsecond sleep, clearing the display takes a long time
+
     def write4bits(self, bits, char_mode=False):
         """ Send command to LCD """
 
